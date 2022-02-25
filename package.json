@@ -1,5 +1,5 @@
 {
-  "name": "wasm-test",
+  "name": "nextjs-with-golang-wasm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
