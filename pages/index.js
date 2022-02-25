@@ -12,6 +12,16 @@ export async function getStaticProps() {
   let inst = await WebAssembly.instantiate(mod, go.importObject);
   go.run(inst);
 
+  console.log(sum(3, 4));
+  printMessage("JS calling Go and back again!", (err, message) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log(message);
+  });
+
   return { props: {} };
 }
 
