@@ -9,7 +9,7 @@ export default function NavBar(){
                <a>Home</a>   
             </Link>
             <Link href="/wasm/client">
-               <a>Clinet</a>   
+               <a>Client</a>   
             </Link>
             <Link href="/wasm/server">
                <a>Server</a>   

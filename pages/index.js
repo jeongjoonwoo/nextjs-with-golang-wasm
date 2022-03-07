@@ -4,26 +4,26 @@ import Script from "next/script";
 import styles from "../styles/Home.module.css";
 
 // Server Side
-export async function getStaticProps() {
-  await import("../public/wasm_exec.js");
+// export async function getStaticProps() {
+//   await import("../public/wasm_exec.js");
 
-  const go = new Go();
-  const mod = await WebAssembly.compile(fs.readFileSync("public/main.wasm"));
-  let inst = await WebAssembly.instantiate(mod, go.importObject);
-  go.run(inst);
+//   const go = new Go();
+//   const mod = await WebAssembly.compile(fs.readFileSync("public/main.wasm"));
+//   let inst = await WebAssembly.instantiate(mod, go.importObject);
+//   go.run(inst);
 
-  console.log(sum(3, 4));
-  printMessage("JS calling Go and back again!", (err, message) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+//   console.log(sum(3, 4));
+//   printMessage("JS calling Go and back again!", (err, message) => {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
 
-    console.log(message);
-  });
+//     console.log(message);
+//   });
 
-  return { props: {} };
-}
+//   return { props: {} };
+// }
 
 // Client Side
 export default function Home() {
@@ -43,7 +43,7 @@ export default function Home() {
         Hello
       </h3>
 
-      <Script
+      {/* <Script
         src="wasm_exec.js"
         onLoad={() => {
           const go = new Go();
@@ -56,7 +56,7 @@ export default function Home() {
             go.run(wasm.instance);
           });
         }}
-      />
+      /> */}
     </div>
   );
 }
