@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"syscall/js"
 
@@ -15,9 +16,9 @@ func init() {
 }
 
 func main() {
-	println("Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!!")
+	fmt.Println("Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!! Hello ZiPIDA !!!!!")
 	js.Global().Set("printMessage", js.FuncOf(printMessage))
-	js.Global().Set("sum", js.FuncOf(sum))
+	js.Global().Set("sum", js.FuncOf(addFunction))
 	js.Global().Set("searchUrl", js.FuncOf(searchUrl))
 	<-c
 }
@@ -31,41 +32,31 @@ func printMessage(_ js.Value, i []js.Value) interface{} {
 	return nil
 }
 
-func sum(_ js.Value, i []js.Value) interface{} {
-	calc := i[0].Int() + i[1].Int()
-
-	js.Global().Set("sum : ", js.ValueOf(calc))
-	return js.ValueOf(calc).String()
+func addFunction(this js.Value, p []js.Value) interface{} {
+    sum := p[0].Int() + p[1].Int()
+    return js.ValueOf(sum)
 }
 
-// func temp() {
-// 	println("FOO!")
-// }
-
 func searchUrl(_ js.Value, i []js.Value) interface{} {
-	callback := i[len(i)-1:][0]
-	targetURL := i[0].String()
+	// var html string
+	// callback := i[0]
+	// targetURL := callback.String()
+	
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.DisableGPU,
-		chromedp.Flag("headless", true),
+		chromedp.Flag("headless", false),
 	)
-	contextVar, cancelFunc := chromedp.NewExecAllocator(context.Background(), opts...)
-	defer cancelFunc()
 
-	contextVar, cancelFunc = chromedp.NewContext(contextVar)
-	defer cancelFunc()
+	execCtx, _ := chromedp.NewExecAllocator(context.Background(), opts...)
+	// defer execCancel()
 
-	var strVar string
+	ctx, _ := chromedp.NewContext(execCtx)
+	// defer cancel()
 
-	err := chromedp.Run(contextVar,
-		chromedp.Navigate(targetURL),
-		chromedp.InnerHTML(`body`, &strVar),
-	)
+	err := chromedp.Run(ctx)
 	if err != nil {
 		log.Println(err)
+		return js.ValueOf(err.Error())
 	}
-	// js.Global().Set("searchUrl : ", js.ValueOf(strVar))
-
-	callback.Invoke(js.Null(), "strVar "+strVar)
-	return js.ValueOf(strVar).String()
+	
+	return js.ValueOf("done")
 }
