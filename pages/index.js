@@ -36,8 +36,12 @@ export default function Home() {
       </Head>
 
       <h1 className={styles.title}>
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
+        Home Page
       </h1>
+
+      <h3>
+        Hello
+      </h3>
 
       <Script
         src="wasm_exec.js"

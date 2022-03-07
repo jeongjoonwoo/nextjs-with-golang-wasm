@@ -17,15 +17,15 @@ func main() {
 
 func printMessage(_ js.Value, i []js.Value) interface{} {
 	callback := i[len(i)-1:][0]
-  message := i[0].String()
+	message := i[0].String()
 
-  callback.Invoke(js.Null(), "Did you say " + message)
-	
+	callback.Invoke(js.Null(), "Did you say "+message)
+
 	return nil
 }
 
 func sum(_ js.Value, i []js.Value) interface{} {
-	calc := i[0].Int()+i[1].Int()
+	calc := i[0].Int() + i[1].Int()
 
 	js.Global().Set("sum : ", js.ValueOf(calc))
 	return js.ValueOf(calc).String()
